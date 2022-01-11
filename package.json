@@ -1,0 +1,25 @@
+{
+  "name": "recipe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bora001/recipe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bora001/recipe/issues"
+  },
+  "homepage": "https://github.com/bora001/recipe#readme",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.1.1",
+    "parcel": "^2.1.1"
+  }
+}
