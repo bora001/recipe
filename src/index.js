@@ -26,6 +26,7 @@ const ListRender = (data, title) => {
          <h1>${newTitle} Recipe</h1>
         <div class="card_box">
             ${data
+              .reverse()
               .map((recipe) => {
                 return `
               <div class="card_detail">
