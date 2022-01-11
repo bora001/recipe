@@ -7,30 +7,44 @@ const bestRecipe = async function () {
     );
     const data = await res.json();
     const recipes = data.data.recipes;
-    for (let recipe of recipes) {
-      cardRender(recipe);
-    }
+    ListRender(recipes, "best");
+    // for (let recipe of recipes) {
+    // //   cardRender(recipe,"best");
+    // }
   } catch (err) {
     alert(err);
   }
 };
 
-const cardList = document.querySelector(".card_list");
-const cardRender = (data, title) => {
-  const buildCard = `
-      <div class="card_detail">
+const mainBox = document.querySelector(".main_box");
 
-    <a href="${data.id}">
-          <img
-          src="${data.image_url}"
-            alt="${data.title}"
-          />
-          <p>${data.title}</p>
-        </a>
+const ListRender = (data, title) => {
+  let newTitle = title.replace(title[0], title[0].toUpperCase());
+  console.log();
+  const buildList = `
+  <div class="card_list">
+         <h1>${newTitle} Recipe</h1>
+        <div class="card_box">
+            ${data
+              .map((recipe) => {
+                return `
+              <div class="card_detail">
+              <a href="${recipe.id}">
+                <img
+                src="${recipe.image_url}"
+                alt="${recipe.title}"
+                />
+                <p>${recipe.title}</p>
+                </a>
+                </div>
+                `;
+              })
+              .join("")}
         </div>
-    `;
-
-  cardList.insertAdjacentHTML("afterbegin", buildCard);
+      </div>`;
+  mainBox.insertAdjacentHTML("afterbegin", buildList);
 };
+
+// };
 
 bestRecipe();
