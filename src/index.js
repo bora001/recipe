@@ -1,5 +1,3 @@
-console.log("recipe");
-
 const bestRecipe = async function () {
   try {
     const res = await fetch(
@@ -17,7 +15,6 @@ const mainBox = document.querySelector(".main_box");
 
 const ListRender = (data, title) => {
   let newTitle = title.replace(title[0], title[0].toUpperCase());
-  console.log();
   const buildList = `
   <div class="card_list">
          <h1>${newTitle} Recipe</h1>
@@ -48,8 +45,6 @@ const ListRender = (data, title) => {
 
 bestRecipe();
 
-const itemBox = document.querySelector(".item_box");
-
 const recipeDetail = async function (id) {
   try {
     const res = await fetch(
@@ -65,9 +60,8 @@ const recipeDetail = async function (id) {
 };
 
 const itemRender = (data) => {
-  console.log(data);
   const buildList = `
-  
+    <div class="item_box">
     <div class="img_box">
         <img
         src=${data.image_url}
@@ -97,7 +91,6 @@ const itemRender = (data) => {
        <ul>
        ${data.ingredients
          .map((ing) => {
-           console.log(ing);
            return `
           <li>${ing.quantity ? ing.quantity : ""} ${ing.unit} ${
              ing.description
@@ -108,15 +101,19 @@ const itemRender = (data) => {
          </ul>
       </div>
       </div>
+      </div>
       `;
-  itemBox.insertAdjacentHTML("beforeend", buildList);
+  clearMainBox();
+  mainBox.insertAdjacentHTML("beforeend", buildList);
 };
 
-console.log(window.location.pathname, "hash");
 if (window.location.pathname !== "/") {
   let id = window.location.pathname;
-  //   console.log(id, "id");
-  //   console.log(`https://forkify-api.herokuapp.com/api/v2/recipes${id}`);
-  mainBox.remove();
   recipeDetail(id);
 }
+
+const clearMainBox = () => {
+  while (mainBox.firstChild) {
+    mainBox.removeChild(mainBox.lastChild);
+  }
+};
