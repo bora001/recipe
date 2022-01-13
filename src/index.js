@@ -27,7 +27,6 @@ const mainBox = document.querySelector(".main_box");
 
 const ListRender = (data, title) => {
   if (data.length == 0) {
-    console.log("nothing.");
     const emptyList = `
   <div class="empty_list">
   <div class="txt_box">
@@ -138,8 +137,17 @@ if (window.location.pathname == "/" && !window.location.search) {
 }
 //search
 if (window.location.search) {
-  console.log("search!!!!!!!!");
   let keyword = window.location.search.split("=")[1];
   clearMainBox();
   bestRecipe(keyword);
 }
+
+//menu
+const menuBtn = document.querySelectorAll(".kv_box .menu_box button");
+menuBtn.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    let keyword = btn.innerText;
+    clearMainBox();
+    bestRecipe(keyword);
+  });
+});
