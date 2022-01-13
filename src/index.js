@@ -1,11 +1,23 @@
-const bestRecipe = async function () {
+const bestRecipe = async function (keyword) {
   try {
     const res = await fetch(
-      "https://forkify-api.herokuapp.com/api/v2/recipes?search=best"
+      `https://forkify-api.herokuapp.com/api/v2/recipes?search=${keyword}`
     );
     const data = await res.json();
     const recipes = data.data.recipes;
-    ListRender(recipes, "best");
+    ListRender(recipes, keyword);
+  } catch (err) {
+    alert(err);
+  }
+};
+
+const recipeDetail = async function (id) {
+  try {
+    const res = await fetch(
+      `https://forkify-api.herokuapp.com/api/v2/recipes${id}`
+    );
+    const data = await res.json();
+    itemRender(data.data.recipe);
   } catch (err) {
     alert(err);
   }
@@ -14,10 +26,29 @@ const bestRecipe = async function () {
 const mainBox = document.querySelector(".main_box");
 
 const ListRender = (data, title) => {
-  let newTitle = title.replace(title[0], title[0].toUpperCase());
+  if (data.length == 0) {
+    console.log("nothing.");
+    const emptyList = `
+  <div class="empty_list">
+  <div class="txt_box">
+  <p>Sorry, we can not find "${title}",<br> Try search again!</p>
+  <button><a href="/">Main Page</a></button>
+  </div>
+  <img src="https://cdn.pixabay.com/photo/2017/06/21/09/19/spoon-2426623_960_720.jpg"/>
+  </div>
+    `;
+    mainBox.insertAdjacentHTML("beforeend", emptyList);
+    return;
+  }
+
+  let htmlTitle = "";
+  if (title == "best") {
+    let newTitle = title.replace(title[0], title[0].toUpperCase());
+    htmlTitle = `<h1>${newTitle} Recipe</h1>`;
+  }
   const buildList = `
   <div class="card_list">
-         <h1>${newTitle} Recipe</h1>
+  ${htmlTitle}
         <div class="card_box">
             ${data
               .reverse()
@@ -41,22 +72,6 @@ const ListRender = (data, title) => {
         </div>
       </div>`;
   mainBox.insertAdjacentHTML("beforeend", buildList);
-};
-
-bestRecipe();
-
-const recipeDetail = async function (id) {
-  try {
-    const res = await fetch(
-      `https://forkify-api.herokuapp.com/api/v2/recipes${id}`
-    );
-    const data = await res.json();
-    itemRender(data.data.recipe);
-    // const recipes = data.data.recipes;
-    // ListRender(recipes, "best");
-  } catch (err) {
-    alert(err);
-  }
 };
 
 const itemRender = (data) => {
@@ -107,13 +122,24 @@ const itemRender = (data) => {
   mainBox.insertAdjacentHTML("beforeend", buildList);
 };
 
-if (window.location.pathname !== "/") {
-  let id = window.location.pathname;
-  recipeDetail(id);
-}
-
 const clearMainBox = () => {
   while (mainBox.firstChild) {
     mainBox.removeChild(mainBox.lastChild);
   }
 };
+
+if (window.location.pathname !== "/" && !window.location.search) {
+  let id = window.location.pathname;
+  recipeDetail(id);
+}
+
+if (window.location.pathname == "/" && !window.location.search) {
+  bestRecipe("best");
+}
+//search
+if (window.location.search) {
+  console.log("search!!!!!!!!");
+  let keyword = window.location.search.split("=")[1];
+  clearMainBox();
+  bestRecipe(keyword);
+}
