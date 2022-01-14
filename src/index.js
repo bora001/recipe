@@ -1,3 +1,26 @@
+//bookmark
+let theBookmark = localStorage.getItem || [];
+const validBookmark = (data) => {
+  if (!localStorage.getItem("bookmarks")) {
+    localStorage.setItem("bookmarks", data);
+    console.log("nothing on the local");
+  } else {
+    let currentBookmark = localStorage.getItem("bookmarks").split(",");
+    console.log(currentBookmark, data);
+
+    if (currentBookmark.indexOf(data) == -1) {
+      currentBookmark.push(data);
+      console.log(currentBookmark);
+      localStorage.setItem("bookmarks", currentBookmark);
+      console.log(currentBookmark);
+    } else {
+      console.log("already!");
+    }
+
+    console.log("something on the local", localStorage.getItem("bookmarks"));
+  }
+};
+
 const bestRecipe = async function (keyword) {
   try {
     const res = await fetch(
@@ -74,6 +97,8 @@ const ListRender = (data, title) => {
 };
 
 const itemRender = (data) => {
+  //book mark
+
   const buildList = `
     <div class="item_box">
     <div class="img_box">
@@ -96,7 +121,7 @@ const itemRender = (data) => {
        ${data.servings} People
        </p>
        </div>
-       <a href="javascript:;">Bookmarks</a>
+       <a href="javascript:;" class="unbookmark" onclick="(function(){validBookmark(window.location.pathname.split('/')[1]);})()">Bookmark</a>
         <a href=${data.source_url} class="go_info" target="_blank">More Info</a>
        </div>
        </div>

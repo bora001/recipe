@@ -87,6 +87,9 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-right: 20px;
+    .btn {
+      cursor: pointer;
+    }
   }
 }
 
@@ -307,7 +310,17 @@ body {
           }
         }
         a {
-          padding: 2px 5px;
+          padding: 3px 7px;
+          color: #fff;
+          text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.486);
+          background: linear-gradient(120deg, #f15811a8, #f78031a2);
+          box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.486);
+        }
+        a.unbookmark {
+          background: #f3b541c0;
+          box-shadow: none;
+          text-shadow: none;
+          transition: 1s;
         }
       }
     }
