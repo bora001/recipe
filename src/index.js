@@ -3,22 +3,18 @@ let theBookmark = localStorage.getItem || [];
 const validBookmark = (data) => {
   if (!localStorage.getItem("bookmarks")) {
     localStorage.setItem("bookmarks", data);
-    console.log("nothing on the local");
   } else {
     let currentBookmark = localStorage.getItem("bookmarks").split(",");
-    console.log(currentBookmark, data);
-
     if (currentBookmark.indexOf(data) == -1) {
       currentBookmark.push(data);
-      console.log(currentBookmark);
       localStorage.setItem("bookmarks", currentBookmark);
-      console.log(currentBookmark);
     } else {
       console.log("already!");
     }
 
     console.log("something on the local", localStorage.getItem("bookmarks"));
   }
+  renderBookmark();
 };
 
 const bestRecipe = async function (keyword) {
@@ -176,3 +172,64 @@ menuBtn.forEach((btn) => {
     bestRecipe(keyword);
   });
 });
+
+//nav-bookmark
+const navBookmark = document.querySelector(".nav .btn_box .nav_bookmark");
+const bookmarkBox = document.querySelector(".bookmark_box .bookmark_item_box");
+
+//render-show-bookmark
+
+const renderBookmark = async function () {
+  let bookmarkList;
+
+  if (localStorage.getItem("bookmarks")) {
+    localStorage.getItem("bookmarks").split(",") === "null"
+      ? (bookmarkList = localStorage.getItem("bookmarks"))
+      : (bookmarkList = localStorage.getItem("bookmarks").split(","));
+
+    for (let eachItem of bookmarkList) {
+      try {
+        const res = await fetch(
+          `https://forkify-api.herokuapp.com/api/v2/recipes/${eachItem}`
+        );
+        const data = await res.json();
+        const recipe = data.data.recipe;
+        const bookmarkItem = `
+          <div class="bookmark_item">
+            <a href=${recipe.id}>
+            <div class="img_box">
+              <img
+              src=${recipe.image_url}
+                alt=""
+              />
+            </div>
+              <p>${recipe.title}</p>
+            </a>
+          </div>
+      `;
+        bookmarkBox.insertAdjacentHTML("beforeend", bookmarkItem);
+      } catch (err) {
+        alert(err);
+      }
+    }
+  }
+};
+
+const bookmarkE = () => {
+  let bookmarkOpen = false;
+  navBookmark.addEventListener("mouseover", () => {
+    if (!bookmarkOpen) {
+      // renderBookmark();
+      bookmarkOpen = true;
+    }
+  });
+
+  bookmarkBox.addEventListener("mouseleave", () => {
+    while (bookmarkBox.firstChild) {
+      bookmarkBox.removeChild(bookmarkBox.lastChild);
+    }
+    bookmarkOpen = false;
+  });
+};
+
+bookmarkE();

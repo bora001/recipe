@@ -258,7 +258,6 @@ body {
 }
 
 //itemBox
-
 .item_box {
   display: flex;
   justify-content: center;
@@ -345,6 +344,46 @@ body {
           font-size: 16px;
           line-height: 26px;
         }
+      }
+    }
+  }
+}
+
+//bookmark_box
+.bookmark_box {
+  position: fixed;
+  left: 65%;
+  transform: translateX(-50%);
+  z-index: 99;
+
+  .bookmark_item_box {
+    background-color: rgba(255, 255, 255, 0.95);
+    display: flex;
+    border-radius: 10px;
+    height: auto;
+    margin-top: 75px;
+
+    .bookmark_item {
+      width: 150px;
+      padding: 20px 0px 20px 20px;
+
+      .img_box {
+        height: 100px;
+        overflow: hidden;
+        position: relative;
+        img {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+
+      p {
+        padding: 5px;
+      }
+      &:last-child {
+        margin-right: 20px;
       }
     }
   }
