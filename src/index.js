@@ -219,15 +219,13 @@ const bookmarkE = () => {
   let bookmarkOpen = false;
   navBookmark.addEventListener("mouseover", () => {
     if (!bookmarkOpen) {
-      // renderBookmark();
+      bookmarkBox.classList.remove("off");
       bookmarkOpen = true;
     }
   });
 
   bookmarkBox.addEventListener("mouseleave", () => {
-    while (bookmarkBox.firstChild) {
-      bookmarkBox.removeChild(bookmarkBox.lastChild);
-    }
+    bookmarkBox.classList.add("off");
     bookmarkOpen = false;
   });
 };

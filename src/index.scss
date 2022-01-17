@@ -19,7 +19,9 @@ img {
 body {
   background: linear-gradient(to right, #f13e11a8, #f5af19ad);
 }
-
+.off {
+  display: none !important;
+}
 // nav
 .nav {
   position: fixed;
@@ -282,7 +284,8 @@ body {
       border-radius: 10px;
       background-color: rgba(252, 244, 225, 0.753);
       box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.479);
-      height: 100px;
+      // height: 100px;
+      padding: 20px 0;
       display: flex;
       flex-direction: column;
       align-items: center;
