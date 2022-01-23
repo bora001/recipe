@@ -1,3 +1,23 @@
+//scroll
+const nav = document.querySelector(".nav");
+const kvImg = document.querySelector(".main_box .kv_box .img_box");
+let kvHeight = document.querySelector(
+  ".main_box .kv_box .img_box"
+).clientHeight;
+window.addEventListener("scroll", () => {
+  if (window.scrollY > kvHeight) {
+    console.log("oout !!");
+    nav.classList.add("main_color");
+  } else {
+    nav.classList.remove("main_color");
+  }
+});
+
+//resize
+window.addEventListener("resize", () => {
+  kvHeight = kvImg.clientHeight;
+});
+
 //bookmark
 let theBookmark = localStorage.getItem || [];
 const validBookmark = (data) => {

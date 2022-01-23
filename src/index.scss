@@ -19,6 +19,11 @@ img {
 body {
   background: linear-gradient(to right, #f13e11a8, #f5af19ad);
 }
+
+.main_color {
+  background: linear-gradient(to right, #f13e11, #f5af19);
+}
+
 .off {
   display: none !important;
 }
@@ -749,6 +754,7 @@ body {
     padding: 2vw;
     height: 10.4167vw;
     text-shadow: 0.651vw 0.651vw 0.9115vw rgba(0, 0, 0, 0.877);
+    background: linear-gradient(to right, #f13e11, #f5af19);
 
     .logo_box {
       a {
@@ -812,8 +818,10 @@ body {
   // menuBox
   .main_box {
     .kv_box {
+      padding-top: 10.4167vw;
+
       .img_box {
-        height: 91.1458vw;
+        height: 55vw;
 
         img {
           top: 50%;
