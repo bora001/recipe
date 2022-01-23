@@ -64,6 +64,19 @@ const recipeDetail = async function (id) {
 
 const mainBox = document.querySelector(".main_box");
 
+let bookmarked = false;
+
+const bookmarkCheck = (id) => {
+  if (localStorage.getItem("bookmarks")) {
+    let currentBookmark = localStorage.getItem("bookmarks").split(",");
+    for (let eachItem of currentBookmark) {
+      if (eachItem == id) {
+        bookmarked = true;
+      }
+    }
+  }
+};
+
 const ListRender = (data, title) => {
   if (data.length == 0) {
     const emptyList = `
@@ -113,8 +126,8 @@ const ListRender = (data, title) => {
 };
 
 const itemRender = (data) => {
+  bookmarkCheck(data.id);
   //book mark
-
   const buildList = `
     <div class="item_box">
     <div class="img_box">
@@ -137,7 +150,9 @@ const itemRender = (data) => {
        ${data.servings} People
        </p>
        </div>
-       <a href="javascript:;" class="btn_bookmark"onclick="(function(){validBookmark(window.location.pathname.split('/')[1]);})()">Bookmark<span>✅</span></a>
+       <a href="javascript:;" class="btn_bookmark ${
+         bookmarked ? "add_bookmark" : ""
+       }" onclick="(function(){validBookmark(window.location.pathname.split('/')[1]);})()">Bookmark<span>✅</span></a>
         <a href=${data.source_url} class="go_info" target="_blank">More Info</a>
        </div>
        </div>
@@ -158,16 +173,9 @@ const itemRender = (data) => {
       </div>
       </div>
       `;
-  // clearMainBox();
   clearBox(mainBox);
   mainBox.insertAdjacentHTML("beforeend", buildList);
 };
-
-// const clearMainBox = () => {
-//   while (mainBox.firstChild) {
-//     mainBox.removeChild(mainBox.lastChild);
-//   }
-// };
 
 const clearBox = (div) => {
   while (div.firstChild) {
@@ -186,7 +194,6 @@ if (window.location.pathname == "/" && !window.location.search) {
 //search
 if (window.location.search) {
   let keyword = window.location.search.split("=")[1];
-  // clearMainBox();
   clearBox(mainBox);
   bestRecipe(keyword);
 }
@@ -196,7 +203,6 @@ const menuBtn = document.querySelectorAll(".kv_box .menu_box button");
 menuBtn.forEach((btn) => {
   btn.addEventListener("click", () => {
     let keyword = btn.innerText;
-    // clearMainBox();
     clearBox(mainBox);
     bestRecipe(keyword);
   });
@@ -257,15 +263,11 @@ const bookmarkE = () => {
   navBookmark.addEventListener("mouseover", () => {
     if (!bookmarkOpen) {
       bookmarkBox.classList.remove("off");
-      console.log("mouseover on bookmark!!");
-
       bookmarkOpen = true;
     }
   });
 
   bookmarkBox.addEventListener("mouseleave", () => {
-    console.log("mouseleave on bookmark!!");
-
     bookmarkBox.classList.add("off");
     bookmarkOpen = false;
   });
