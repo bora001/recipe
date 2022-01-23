@@ -1,19 +1,39 @@
 //bookmark
 let theBookmark = localStorage.getItem || [];
 const validBookmark = (data) => {
-  if (!localStorage.getItem("bookmarks")) {
-    localStorage.setItem("bookmarks", data);
+  const bookmarkBtn = document.querySelector(
+    ".item_box .txt_box .ico_box .btn_bookmark"
+  );
+
+  if (!bookmarkBtn.classList.contains("add_bookmark")) {
+    console.log("not yet!");
+    bookmarkBtn.classList.add("add_bookmark");
+
+    if (!localStorage.getItem("bookmarks")) {
+      localStorage.setItem("bookmarks", data);
+    } else {
+      let currentBookmark = localStorage.getItem("bookmarks").split(",");
+      if (currentBookmark.indexOf(data) == -1) {
+        currentBookmark.push(data);
+        localStorage.setItem("bookmarks", currentBookmark);
+      }
+    }
   } else {
     let currentBookmark = localStorage.getItem("bookmarks").split(",");
-    if (currentBookmark.indexOf(data) == -1) {
-      currentBookmark.push(data);
-      localStorage.setItem("bookmarks", currentBookmark);
-    } else {
-      console.log("already!");
-    }
 
-    console.log("something on the local", localStorage.getItem("bookmarks"));
+    if (currentBookmark.indexOf(data) !== -1) {
+      console.log("already!");
+      console.log(currentBookmark, "current bookmark");
+      for (let number in currentBookmark) {
+        if (currentBookmark[number] == data) {
+          currentBookmark.splice(number, 1);
+          localStorage.setItem("bookmarks", currentBookmark);
+        }
+      }
+    }
+    bookmarkBtn.classList.remove("add_bookmark");
   }
+  clearBox(bookmarkBox);
   renderBookmark();
 };
 
@@ -117,7 +137,7 @@ const itemRender = (data) => {
        ${data.servings} People
        </p>
        </div>
-       <a href="javascript:;" class="unbookmark" onclick="(function(){validBookmark(window.location.pathname.split('/')[1]);})()">Bookmark</a>
+       <a href="javascript:;" class="btn_bookmark"onclick="(function(){validBookmark(window.location.pathname.split('/')[1]);})()">Bookmark<span>✅</span></a>
         <a href=${data.source_url} class="go_info" target="_blank">More Info</a>
        </div>
        </div>
@@ -138,13 +158,20 @@ const itemRender = (data) => {
       </div>
       </div>
       `;
-  clearMainBox();
+  // clearMainBox();
+  clearBox(mainBox);
   mainBox.insertAdjacentHTML("beforeend", buildList);
 };
 
-const clearMainBox = () => {
-  while (mainBox.firstChild) {
-    mainBox.removeChild(mainBox.lastChild);
+// const clearMainBox = () => {
+//   while (mainBox.firstChild) {
+//     mainBox.removeChild(mainBox.lastChild);
+//   }
+// };
+
+const clearBox = (div) => {
+  while (div.firstChild) {
+    div.removeChild(div.lastChild);
   }
 };
 
@@ -159,7 +186,8 @@ if (window.location.pathname == "/" && !window.location.search) {
 //search
 if (window.location.search) {
   let keyword = window.location.search.split("=")[1];
-  clearMainBox();
+  // clearMainBox();
+  clearBox(mainBox);
   bestRecipe(keyword);
 }
 
@@ -168,7 +196,8 @@ const menuBtn = document.querySelectorAll(".kv_box .menu_box button");
 menuBtn.forEach((btn) => {
   btn.addEventListener("click", () => {
     let keyword = btn.innerText;
-    clearMainBox();
+    // clearMainBox();
+    clearBox(mainBox);
     bestRecipe(keyword);
   });
 });
@@ -178,7 +207,6 @@ const navBookmark = document.querySelector(".nav .btn_box .nav_bookmark");
 const bookmarkBox = document.querySelector(".bookmark_box .bookmark_item_box");
 
 //render-show-bookmark
-
 const renderBookmark = async function () {
   let bookmarkList;
 
@@ -212,19 +240,32 @@ const renderBookmark = async function () {
         alert(err);
       }
     }
+  } else {
+    const bookmarkItem = `
+    <div class="no_item">
+      <p>There is no bookmark!</p>
+     </div>
+          `;
+    bookmarkBox.insertAdjacentHTML("beforeend", bookmarkItem);
   }
 };
+
+renderBookmark();
 
 const bookmarkE = () => {
   let bookmarkOpen = false;
   navBookmark.addEventListener("mouseover", () => {
     if (!bookmarkOpen) {
       bookmarkBox.classList.remove("off");
+      console.log("mouseover on bookmark!!");
+
       bookmarkOpen = true;
     }
   });
 
   bookmarkBox.addEventListener("mouseleave", () => {
+    console.log("mouseleave on bookmark!!");
+
     bookmarkBox.classList.add("off");
     bookmarkOpen = false;
   });

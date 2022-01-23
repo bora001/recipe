@@ -312,18 +312,29 @@ body {
           }
         }
         a {
+          display: flex;
           padding: 3px 7px;
           color: #fff;
           text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.486);
           background: linear-gradient(120deg, #f15811a8, #f78031a2);
-          box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.486);
+          &.add_bookmark {
+            background: #f71505ad;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.486);
+          }
+          &.add_bookmark span {
+            filter: hue-rotate(225deg);
+            display: block;
+          }
+          span {
+            display: none;
+          }
         }
-        a.unbookmark {
-          background: #f3b541c0;
-          box-shadow: none;
-          text-shadow: none;
-          transition: 1s;
-        }
+        // a.add_bookmark {
+        //   background: #f3b541c0;
+        //   box-shadow: none;
+        //   text-shadow: none;
+        //   transition: 1s;
+        // }
       }
     }
 
@@ -365,6 +376,12 @@ body {
     border-radius: 10px;
     height: auto;
     margin-top: 75px;
+
+    .no_item {
+      width: 250px;
+      padding: 30px 20px;
+      text-align: center;
+    }
 
     .bookmark_item {
       width: 150px;
