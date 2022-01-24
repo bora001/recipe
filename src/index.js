@@ -1,21 +1,29 @@
 //scroll
 const nav = document.querySelector(".nav");
 const kvImg = document.querySelector(".main_box .kv_box .img_box");
-let kvHeight = document.querySelector(
-  ".main_box .kv_box .img_box"
-).clientHeight;
-window.addEventListener("scroll", () => {
-  if (window.scrollY > kvHeight) {
-    console.log("oout !!");
+let navHeight = nav.clientHeight;
+let kvHeight = kvImg.clientHeight;
+
+const navColor = (height) => {
+  if (window.scrollY > height) {
     nav.classList.add("main_color");
   } else {
     nav.classList.remove("main_color");
+  }
+};
+window.addEventListener("scroll", () => {
+  console.log(kvHeight);
+  if (kvHeight == 0) {
+    navColor(navHeight);
+  } else {
+    navColor(kvHeight);
   }
 });
 
 //resize
 window.addEventListener("resize", () => {
   kvHeight = kvImg.clientHeight;
+  navHeight = nav.clientHeight;
 });
 
 //bookmark
@@ -98,6 +106,8 @@ const bookmarkCheck = (id) => {
 };
 
 const ListRender = (data, title) => {
+  navColor(5);
+
   if (data.length == 0) {
     const emptyList = `
   <div class="empty_list">
