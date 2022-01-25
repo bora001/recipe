@@ -1,9 +1,17 @@
-//scroll
+const navBookmark = document.querySelector(".nav .btn_box .nav_bookmark");
+const bookmarkBox = document.querySelector(".bookmark_box .bookmark_item_box");
 const nav = document.querySelector(".nav");
 const kvImg = document.querySelector(".main_box .kv_box .img_box");
+const mainBox = document.querySelector(".main_box");
+const menuBtn = document.querySelectorAll(".kv_box .menu_box button");
+
 let navHeight = nav.clientHeight;
 let kvHeight = kvImg.clientHeight;
 
+let theBookmark = localStorage.getItem || [];
+let bookmarked = false;
+
+//scroll
 const navColor = (height) => {
   if (window.scrollY > height) {
     nav.classList.add("main_color");
@@ -11,6 +19,7 @@ const navColor = (height) => {
     nav.classList.remove("main_color");
   }
 };
+
 window.addEventListener("scroll", () => {
   console.log(kvHeight);
   if (kvHeight == 0) {
@@ -27,7 +36,6 @@ window.addEventListener("resize", () => {
 });
 
 //bookmark
-let theBookmark = localStorage.getItem || [];
 const validBookmark = (data) => {
   const bookmarkBtn = document.querySelector(
     ".item_box .txt_box .ico_box .btn_bookmark"
@@ -89,10 +97,6 @@ const recipeDetail = async function (id) {
     alert(err);
   }
 };
-
-const mainBox = document.querySelector(".main_box");
-
-let bookmarked = false;
 
 const bookmarkCheck = (id) => {
   if (localStorage.getItem("bookmarks")) {
@@ -229,7 +233,6 @@ if (window.location.search) {
 }
 
 //menu
-const menuBtn = document.querySelectorAll(".kv_box .menu_box button");
 menuBtn.forEach((btn) => {
   btn.addEventListener("click", () => {
     let keyword = btn.innerText;
@@ -237,10 +240,6 @@ menuBtn.forEach((btn) => {
     bestRecipe(keyword);
   });
 });
-
-//nav-bookmark
-const navBookmark = document.querySelector(".nav .btn_box .nav_bookmark");
-const bookmarkBox = document.querySelector(".bookmark_box .bookmark_item_box");
 
 //render-show-bookmark
 const renderBookmark = async function () {
@@ -286,8 +285,6 @@ const renderBookmark = async function () {
   }
 };
 
-renderBookmark();
-
 const bookmarkE = () => {
   let bookmarkOpen = false;
   navBookmark.addEventListener("mouseover", () => {
@@ -303,4 +300,5 @@ const bookmarkE = () => {
   });
 };
 
+renderBookmark();
 bookmarkE();

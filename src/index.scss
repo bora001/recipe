@@ -378,6 +378,19 @@ body {
         margin-left: 50px;
         overflow-y: scroll;
 
+        &::-webkit-scrollbar {
+          background: #ffffff;
+        }
+        &::-webkit-scrollbar-thumb {
+          background-color: #f13e11a8;
+
+          &:hover {
+            background-color: #f13e11ce;
+          }
+        }
+        &::-webkit-scrollbar-track {
+          background: #f5af199c;
+        }
         li {
           font-size: 16px;
           line-height: 26px;
@@ -1051,7 +1064,7 @@ body {
 
   //bookmark_box
   .bookmark_box {
-    left: 50%;
+    left: 48%;
     transform: translateX(-50%);
 
     .bookmark_item_box {
@@ -1059,7 +1072,7 @@ body {
 
       border-radius: 1.3021vw;
       height: auto;
-      margin-top: 9.7656vw;
+      margin-top: 10vw;
 
       .no_item {
         width: 32.5521vw;
